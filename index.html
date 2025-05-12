@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <base target="_top" />
+    <style>
+      @font-face {
+        font-family: 'CNNSansDisplay';
+        src: url('https://reakuad.github.io/fonts/CNNSansDisplay-Medium.woff2') format('woff2');
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: black;
+        color: white;
+        font-family: 'CNNSansDisplay', sans-serif;
+        overflow: hidden;
+      }
+
+      .marquee {
+        white-space: nowrap;
+        display: inline-block;
+        padding-left: 100%;
+        animation: scroll-left 20s linear infinite;
+        font-size: 32px;
+      }
+
+      @keyframes scroll-left {
+        0% {
+          transform: translateX(0%);
+        }
+        100% {
+          transform: translateX(-100%);
+        }
+      }
+
+      .wrapper {
+        width: 100%;
+        overflow: hidden;
+      }
+    </style>
+    <script>
+      async function cargarTexto() {
+        const contenedor = document.getElementById("texto");
+        contenedor.textContent = "Cargando...";
+        try {
+          const response = await fetch("https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLjE_AMzJnvOmX4B9oB-N-fr2Ze13Fx2rpW-I_XmoLNMNz1IU_VJgNMnX3vpDxXRbGme8Nwvn_lc8clgoSmbQPCOH7FruDVfKcnh3Fr_q1YVvgkmB-5UYmvFsLEEYZub4qy4-TlvkL5EzUEc27bJx-dWHzkaeX_30f1tB2na8THmUZ0SulN0VYpyBXGulPDcBOy4M7YIHCwhAHqLbozqYuity3sZg8ohJZBTEf-nhJ7_AseOyCUWk4YpDCOig_bjuSHD69fTmKw58z-rfE2x7rkQPV__zg&lib=MLbK6NPIPeHQbb0ZU6bw-haxTInLs0dih");
+          const texto = await response.text();
+          contenedor.textContent = texto;
+        } catch (e) {
+          contenedor.textContent = "Error al cargar texto";
+        }
+      }
+
+      window.onload = cargarTexto;
+    </script>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="marquee" id="texto">Cargando...</div>
+    </div>
+  </body>
+</html>
