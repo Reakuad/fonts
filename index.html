@@ -57,5 +57,47 @@
       async function cargarTexto() {
         const contenedor = document.getElementById("texto");
         try {
-          const response = await fetch("https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLjE_AMzJnvOmX4B9oB-N-fr2Ze13Fx2rpW-I_XmoLNMNz1IU_VJgNMnX3vpDxXRbGme8Nwvn_lc8clgoSmbQPCOH7FruDVfKcnh3Fr_q1YVvgkmB-5UYmvFsLEEYZub4qy4-TlvkL5EzUEc27bJx-dWHzkaeX_30f1tB2na8THmUZ0SulN0VYpyBXGulPDcBOy4M7YIHCwhAHqLbozqYuity3sZg8ohJZBTEf-nhJ7_AseOyCUWk4YpDCOig_bjuSHD69fTmKw58z-rfE2x7rkQPV__zg&lib=MLbK6NPIPeHQbb0ZU6bw-haxT
+          const response = await fetch("https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLjE_AMzJnvOmX4B9oB-N-fr2Ze13Fx2rpW-I_XmoLNMNz1IU_VJgNMnX3vpDxXRbGme8Nwvn_lc8clgoSmbQPCOH7FruDVfKcnh3Fr_q1YVvgkmB-5UYmvFsLEEYZub4qy4-TlvkL5EzUEc27bJx-dWHzkaeX_30f1tB2na8THmUZ0SulN0VYpyBXGulPDcBOy4M7YIHCwhAHqLbozqYuity3sZg8ohJZBTEf-nhJ7_AseOyCUWk4YpDCOig_bjuSHD69fTmKw58z-rfE2x7rkQPV__zg&lib=MLbK6NPIPeHQbb0ZU6bw-haxTInLs0dih");
+          const texto = await response.text();
 
+          // Reemplazar el texto y reiniciar animación
+          contenedor.classList.remove("marquee");
+          void contenedor.offsetWidth; // Fuerza el reinicio
+          contenedor.textContent = texto;
+          contenedor.classList.add("marquee");
+
+        } catch (e) {
+          contenedor.textContent = "Error al cargar texto";
+        }
+      }
+
+      function actualizarHora() {
+        const reloj = document.getElementById("reloj");
+        const ahora = new Date();
+
+        // Ajustar a UTC-3
+        const utc = ahora.getTime() + (ahora.getTimezoneOffset() * 60000);
+        const argentina = new Date(utc - 3 * 3600000);
+
+        const horas = argentina.getHours().toString().padStart(2, "0");
+        const minutos = argentina.getMinutes().toString().padStart(2, "0");
+
+        reloj.textContent = `${horas}:${minutos}`;
+      }
+
+      window.onload = () => {
+        cargarTexto();
+        actualizarHora();
+
+        setInterval(cargarTexto, 15000);  // cada 15 segundos
+        setInterval(actualizarHora, 10000); // cada 10 segundos
+      };
+    </script>
+  </head>
+  <body>
+    <div class="clock" id="reloj">00:00</div>
+    <div class="wrapper">
+      <div id="texto" class="marquee">Cargando...</div>
+    </div>
+  </body>
+</html>
